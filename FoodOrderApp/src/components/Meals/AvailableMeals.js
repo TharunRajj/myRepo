@@ -1,42 +1,58 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import classes from "./AvailableMeals.module.css";
 import Card from "../UI/Card";
 import MealItem from "./MealItem/MealItem";
-const DUMMY_MEALS = [
-  {
-    id: "m1",
-    name: "Sushi",
-    description: "Finest fish and veggies",
-    price: 22.99,
-  },
-  {
-    id: "m2",
-    name: "Schnitzel",
-    description: "A german specialty!",
-    price: 16.5,
-  },
-  {
-    id: "m3",
-    name: "Barbecue Burger",
-    description: "American, raw, meaty",
-    price: 12.99,
-  },
-  {
-    id: "m4",
-    name: "Green Bowl",
-    description: "Healthy...and green...",
-    price: 18.99,
-  },
-];
 
 const AvailableMeals = () => {
+  const [meals, SetMeals] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const[httpError,setHttpError]=useState("");
+  let MEALS = [];
+  useEffect(() => {
+    const fetchMeals = async () => {
+      setIsLoading(true);
+      const requestData = await fetch(
+        "https://react-http-7d4bc-default-rtdb.firebaseio.com/meals.json"
+      );
+      const responseData = await requestData.json();
+      for (const key in responseData) {
+        MEALS.push({
+          id: key,
+          description: responseData[key].description,
+          name: responseData[key].name,
+          price: responseData[key].price,
+        });
+      }
+      SetMeals(MEALS);
+    };
+    fetchMeals().catch((error) => {
+      setIsLoading(false);
+      setHttpError(error.message);
+    });
+    setIsLoading(false);
+  }, []);
+
   // const mealsList = DUMMY_MEALS.map((meals) =><li>{meals.name}</li>);
   // console.log(mealsList);
+
+  if (isLoading) {
+    return (
+      <section className={classes.mealsLoading}>
+        <p>Loading......</p>
+      </section>
+    );
+  }
+  if(httpError){
+    return(
+    <section className={classes.mealsError}>
+    <p>{httpError}</p>
+  </section>
+  )}
   return (
     <section className={classes.meals}>
       <Card>
         <ul>
-          {DUMMY_MEALS.map((meals) => (
+          {meals.map((meals) => (
             <MealItem
               id={meals.id}
               key={meals.id}
