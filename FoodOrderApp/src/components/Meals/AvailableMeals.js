@@ -6,7 +6,7 @@ import MealItem from "./MealItem/MealItem";
 const AvailableMeals = () => {
   const [meals, SetMeals] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const[httpError,setHttpError]=useState("");
+  const [httpError, setHttpError] = useState("");
   let MEALS = [];
   useEffect(() => {
     const fetchMeals = async () => {
@@ -42,12 +42,13 @@ const AvailableMeals = () => {
       </section>
     );
   }
-  if(httpError){
-    return(
-    <section className={classes.mealsError}>
-    <p>{httpError}</p>
-  </section>
-  )}
+  if (httpError) {
+    return (
+      <section className={classes.mealsError}>
+        <p>{httpError}</p>
+      </section>
+    );
+  }
   return (
     <section className={classes.meals}>
       <Card>

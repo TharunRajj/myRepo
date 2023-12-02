@@ -6,13 +6,13 @@ const MealItem = (props) => {
   const ctx = useContext(CartContext);
   const addItemHandler = (quantity) => {
     ctx.addItem({
-      id:props.id,
-      name:props.name,
-      quantity:quantity,
-      price:props.price
+      id: props.id,
+      name: props.name,
+      quantity: quantity,
+      price: props.price,
     });
   };
-  const price = `$${props.price.toFixed(2)}`;
+  const price = `$${props.price ? props.price.toFixed(2) : 0}`;
   return (
     <li className={classes.meal}>
       <div>

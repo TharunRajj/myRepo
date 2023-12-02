@@ -57,7 +57,7 @@ const Cart = (props) => {
       {cartItems}
       <div className={classes.total}>
         <span>Total Amount</span>
-        <span>{`$${ctx.totalAmount.toFixed(2)}`}</span>
+        <span>{`$${ctx.totalAmount ? ctx.totalAmount.toFixed(2) : 0}`}</span>
       </div>
       {isCheckout && (
         <CheckoutForm
@@ -70,11 +70,11 @@ const Cart = (props) => {
   );
   const buttonContent = (
     <>
-      <p style={{textAlign:'center'}}>Order Placed...</p>
+      <p style={{ textAlign: "center" }}>Order Placed...</p>
       <div className={classes.actions}>
-      <button className={classes["button-alt"]} onClick={props.onHideCart}>
-        Close
-      </button>
+        <button className={classes["button-alt"]} onClick={props.onHideCart}>
+          Close
+        </button>
       </div>
     </>
   );
